@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense & Budget Visualizer — GEA</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============ LANDING PAGE (BERANDA) ============ -->
+  <section id="landingPage" class="landing">
+    <div class="landing-bg"></div>
+    <div class="landing-content">
+      <div class="landing-badge">✨ Smart Budget Tracker</div>
+      <h1 class="landing-title">
+        Kelola Uang Bulanan<br/>
+        <span class="gradient-text">Dengan Cerdas</span>
+      </h1>
+      <p class="landing-subtitle">
+        Atur jatah harian, pantau pengeluaran jajan, dan hindari boros
+        dengan asisten keuangan pribadi yang elegan.
+      </p>
+      <button id="startAppBtn" class="btn btn-primary btn-lg">
+        🚀 Mulai Sekarang
+      </button>
+    </div>
+
+    <div class="developer-card">
+      <div class="dev-avatar">
+        <img
+          src="gea.jpeg"
+          alt="Foto GEA DESTADIA AL-ZAHRA"
+        />
+      </div>
+      <div class="dev-info">
+        <p class="dev-label">Developed by</p>
+        <h3 class="dev-name">GEA DESTADIA AL-ZAHRA</h3>
+        <div class="dev-contact">
+       <a href="https://mail.google.com/mail/u/0/?fs=1&to=geadestadialzahra@gmail.com&tf=cm"
+   target="_blank" rel="noopener" class="dev-link">
+            <span class="dev-icon">📧</span> geadestadialzahra@gmail.com
+          </a>
+          <a href="https://wa.me/6283150687481" target="_blank" rel="noopener" class="dev-link">
+            <span class="dev-icon">📱</span> +62 831-5068-7481
+          </a>
+          <a href="https://www.linkedin.com/in/gea-destadia-al-zahra-28a852378" target="_blank" rel="noopener" class="dev-link">
+            <span class="dev-icon">💼</span> Gea Destadia Al-Zahra
+          </a>
+          <a href="https://www.instagram.com/gea_destadia_10" target="_blank" rel="noopener" class="dev-link">
+            <span class="dev-icon">📸</span> @gea_destadia_10
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ APP (hidden sampai klik Mulai) ============ -->
+  <div id="appWrapper" class="app-wrapper hidden">
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="header-title">
+          <span class="header-icon">💰</span>
+          <h1>Expense &amp; Budget Visualizer</h1>
+        </div>
+        <div class="header-actions">
+          <button id="homeBtn" class="btn-icon" title="Kembali ke Beranda">🏠</button>
+          <button id="themeToggle" class="btn-icon" title="Ganti tema">
+            <span id="themeIcon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="summary-section">
+        <div class="summary-card">
+          <p class="summary-label">Total Pengeluaran</p>
+          <p class="summary-amount" id="totalAmount">Rp 0</p>
+        </div>
+        <div class="summary-card budget-card">
+          <p class="summary-label">Sisa Uang Bulanan</p>
+          <div class="budget-control">
+            <p class="summary-amount" id="budgetDisplay">Rp 0</p>
+            <button id="editBudgetBtn" class="btn-text">✏️ Atur</button>
+          </div>
+          <div class="budget-progress-wrap" id="budgetProgressWrap">
+            <div class="budget-progress-bar" id="budgetProgressBar"></div>
+          </div>
+          <p class="budget-status" id="budgetStatus"></p>
+        </div>
+      </section>
+
+      <section class="daily-section">
+        <div class="daily-card">
+          <div class="daily-header">
+            <span class="daily-icon">📅</span>
+            <div>
+              <p class="daily-label">Jatah Jajan Hari Ini</p>
+              <p class="daily-date" id="todayDate">—</p>
+            </div>
+          </div>
+          <p class="daily-amount" id="dailyAllowance">Rp 0</p>
+          <div class="daily-progress-wrap">
+            <div class="daily-progress-bar" id="dailyProgressBar"></div>
+          </div>
+          <div class="daily-stats">
+            <div class="daily-stat">
+              <span class="stat-label">Terpakai</span>
+              <span class="stat-value" id="dailySpent">Rp 0</span>
+            </div>
+            <div class="daily-stat">
+              <span class="stat-label">Sisa</span>
+              <span class="stat-value" id="dailyRemaining">Rp 0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="daily-card info-card">
+          <div class="daily-header">
+            <span class="daily-icon">📊</span>
+            <div>
+              <p class="daily-label">Ringkasan Bulan Ini</p>
+              <p class="daily-date" id="monthLabel">—</p>
+            </div>
+          </div>
+          <div class="month-stats">
+            <div class="month-stat">
+              <span class="stat-label">Uang Bulanan</span>
+              <span class="stat-value" id="monthlyBudget">Rp 0</span>
+            </div>
+            <div class="month-stat">
+              <span class="stat-label">Total Keluar</span>
+              <span class="stat-value danger" id="monthlySpent">Rp 0</span>
+            </div>
+            <div class="month-stat">
+              <span class="stat-label">Jatah/Hari</span>
+              <span class="stat-value primary" id="dailyAllocation">Rp 0</span>
+            </div>
+            <div class="month-stat">
+              <span class="stat-label">Sisa Hari</span>
+              <span class="stat-value" id="daysLeft">0 hari</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-chart-section">
+        <div class="card form-card">
+          <h2 class="card-title">➕ Tambah Pengeluaran</h2>
+          <form id="expenseForm" novalidate>
+            <div class="form-group">
+              <label for="itemName">Nama Barang / Keterangan</label>
+              <input type="text" id="itemName" placeholder="cth. Makan siang, Ojek…" autocomplete="off" />
+              <span class="field-error" id="itemNameError"></span>
+            </div>
+            <div class="form-group">
+              <label for="itemAmount">Jumlah (Rp)</label>
+              <input type="number" id="itemAmount" placeholder="cth. 25000" min="1" autocomplete="off" />
+              <span class="field-error" id="itemAmountError"></span>
+            </div>
+            <div class="form-group">
+              <label for="itemCategory">Kategori</label>
+              <div class="select-wrapper">
+                <select id="itemCategory"></select>
+              </div>
+              <span class="field-error" id="itemCategoryError"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">+ Tambah Pengeluaran</button>
+          </form>
+
+          <div class="custom-category-section">
+            <h3 class="section-subtitle">🏷️ Kelola Kategori</h3>
+            <div class="custom-category-input-row">
+              <input type="text" id="newCategoryInput" placeholder="Nama kategori baru…" maxlength="30" />
+              <button id="addCategoryBtn" class="btn btn-secondary">Tambah</button>
+            </div>
+            <span class="field-error" id="categoryError"></span>
+            <div class="category-tags" id="categoryTags"></div>
+          </div>
+        </div>
+
+        <div class="card chart-card">
+          <h2 class="card-title">📊 Distribusi Pengeluaran</h2>
+          <div class="chart-wrapper">
+            <canvas id="expenseChart"></canvas>
+          </div>
+          <p class="chart-empty-msg" id="chartEmptyMsg">Belum ada data pengeluaran.</p>
+        </div>
+      </section>
+
+      <section class="card transaction-card">
+        <div class="transaction-header">
+          <h2 class="card-title">🧾 Riwayat Transaksi</h2>
+          <button id="clearAllBtn" class="btn btn-danger btn-sm">🗑 Hapus Semua</button>
+        </div>
+        <p class="empty-msg" id="emptyMsg">Belum ada transaksi. Mulai tambahkan pengeluaran! 🎉</p>
+        <ul class="transaction-list" id="transactionList"></ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- ============ MODAL BUDGET ============ -->
+  <div class="modal-overlay" id="budgetModal" role="dialog" aria-modal="true" hidden>
+    <div class="modal">
+      <h2 id="modalTitle">🎯 Atur Uang Bulanan</h2>
+      <p class="modal-desc">Masukkan total uang bulanan Anda. Sistem akan otomatis menghitung jatah jajan harian.</p>
+      <input type="number" id="budgetInput" class="modal-input" placeholder="cth. 500000" min="0" />
+      <span class="field-error" id="budgetInputError"></span>
+      <div class="modal-actions">
+        <button id="saveBudgetBtn" class="btn btn-primary">Simpan</button>
+        <button id="cancelBudgetBtn" class="btn btn-ghost">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL WARNING BOROS ============ -->
+  <div class="modal-overlay" id="warningModal" role="alertdialog" aria-modal="true" hidden>
+    <div class="modal warning-modal">
+      <div class="warning-icon">⚠️</div>
+      <h2 id="warningTitle">Kamu Sudah Terlalu Boros!</h2>
+      <p class="warning-text" id="warningText"></p>
+      <div class="warning-tip">
+        💡 <em>"Ingat, masih ada hari esok. Sisihkan untuk kebutuhan mendesak."</em>
+      </div>
+      <div class="modal-actions">
+        <button id="warningOkBtn" class="btn btn-primary">Saya Mengerti</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TOAST ============ -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script src="js/app.js"></script>
+  <script src="js/ai-assistant.js"></script>
+</body>
+</html>
